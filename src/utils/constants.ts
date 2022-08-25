@@ -14,6 +14,17 @@ export const PRIMARY_COLOR = '#0366d6'
 export const SECONDARY_COLOR = '#2f363d'
 
 export const SUPPORTED_CHAINS = {
+  1: {
+    chainId: '0x1',
+    rpcUrls: ['https://rpc.flashbots.net'],
+    chainName: 'Ethereum Mainnet',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://etherscan.io/'],
+  },
   137: {
     chainId: '0x89',
     rpcUrls: ['https://rpc-mainnet.matic.network/'],
