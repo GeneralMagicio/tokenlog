@@ -30,7 +30,7 @@ export function QuadraticVote(props: Props) {
     }
   }
 
-  function onChange(type: 'MIN' | 'DOWN' | 'UP' | 'MAX') {
+  function onChangeStep(type: 'MIN' | 'DOWN' | 'UP' | 'MAX') {
     let amount: number
     let qc: number
 
@@ -62,6 +62,19 @@ export function QuadraticVote(props: Props) {
     setQuadraticCost(qc)
   }
 
+  function onChangeInput(event) {
+    const targetValue = event.target.value
+    const amount =
+      targetValue < 1
+        ? 1
+        : targetValue > maxVotes
+        ? Math.floor(maxVotes)
+        : parseInt(targetValue)
+    const qc = getQuadraticCost(amount)
+    setVoteAmount(amount)
+    setQuadraticCost(qc)
+  }
+
   function disableLower() {
     return voteAmount <= step
   }
@@ -78,10 +91,11 @@ export function QuadraticVote(props: Props) {
     return Number(Math.pow(value, 2).toFixed(2))
   }
 
-
   return (
     <div>
-      <p>You can spend a maximum of {Math.max(maxVotes, 0)} voting power ('VP').</p>
+      <p>
+        You can spend a maximum of {Math.max(maxVotes, 0)} voting power ('VP').
+      </p>
       <p>
         You already have {itemCost} votes ({getQuadraticCost(itemCost)} VP) on
         this item.
@@ -103,7 +117,7 @@ export function QuadraticVote(props: Props) {
           className="mr-2"
           variant="small"
           disabled={disableLower()}
-          onClick={() => onChange('MIN')}
+          onClick={() => onChangeStep('MIN')}
         >
           MIN
         </Button>
@@ -112,26 +126,27 @@ export function QuadraticVote(props: Props) {
           className="mr-2"
           variant="small"
           disabled={disableLower()}
-          onClick={() => onChange('DOWN')}
+          onClick={() => onChangeStep('DOWN')}
         >
           &laquo;
         </Button>
         <TextInput
           css=""
           variant="small"
+          type="number"
           width={100}
           aria-label="Amount of votes"
           name="votes"
           placeholder="Amount of votes..."
           value={voteAmount}
-          readOnly
+          onChange={onChangeInput}
         />
         <Button
           css=""
           className="ml-2"
           variant="small"
           disabled={disableHigher()}
-          onClick={() => onChange('UP')}
+          onClick={() => onChangeStep('UP')}
         >
           &raquo;
         </Button>
@@ -140,7 +155,7 @@ export function QuadraticVote(props: Props) {
           className="ml-2"
           variant="small"
           disabled={disableHigher()}
-          onClick={() => onChange('MAX')}
+          onClick={() => onChangeStep('MAX')}
         >
           MAX
         </Button>
