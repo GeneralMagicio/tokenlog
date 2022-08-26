@@ -22,10 +22,12 @@ interface data {
 export function InsightView() {
     const vote = useVote()
     const dateFormat = 'MMMM D, YYYY'
+    const initialDate = new Date()
+    initialDate.setMonth(initialDate.getMonth() - 1)
     const [data, setData] = useState<data>({
-        date: new Date(),
+        date: initialDate,
         type: DateFilterTypes.month,
-        votes: []
+        votes: vote.backlogVotes.filter((i) => moment(i.timestamp).isAfter(initialDate))
     })
     const [events, setEvents] = useState<Array<InsightTimelineItem>>([])
     const [order, setOrder] = useState<'address' | 'backlogItem'>('address')
