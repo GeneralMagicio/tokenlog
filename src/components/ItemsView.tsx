@@ -1,27 +1,19 @@
 import {
-  Box,
   ButtonPrimary,
-  Dialog,
   Flex,
   TextInput,
-  Tooltip,
-  Truncate,
 } from '@primer/components'
 import {
   SearchIcon,
-  ChevronUpIcon,
-  VerifiedIcon,
 } from '@primer/styled-octicons'
 import moment from 'moment'
 import React, { ChangeEvent, useState } from 'react'
 import { useBacklog } from 'src/hooks/useBacklog'
 import { BacklogItem } from 'src/types'
-import { PRIMARY_COLOR } from 'src/utils/constants'
-import { AddressAvatars } from './AddressAvatars'
 import { Link } from './elements/Link'
-import { ItemVote } from './ItemVote'
 import { NoItemsFound } from './NoItemsFound'
 import { NoOpenItems } from './NoOpenItems'
+import { ItemCard } from './ItemCard'
 
 export function ItemsView() {
   const backlog = useBacklog()
@@ -76,81 +68,7 @@ export function ItemsView() {
         {backlog.items.length === 0 && <NoOpenItems />}
         {items.length === 0 && <NoItemsFound criteria={searchValue} />}
         {items.map((i: BacklogItem, index: number) => {
-          const [showDialog, setShowDialog] = useState(false)
-          const returnFocusRef = React.useRef(null)
-          const lastItem = items.length === index + 1
-          const addresses = [...new Set(i.votes.flatMap(i => i.address))]
-
-          return (
-            <React.Fragment key={i.number}>
-              <Dialog 
-                css='' 
-                returnFocusRef={returnFocusRef} 
-                isOpen={showDialog} 
-                onDismiss={() => setShowDialog(false)} 
-                aria-labelledby="header-id">
-                <Dialog.Header id="header-id">
-                  <Truncate
-                    title={i.title}
-                    inline
-                    expandable={false}
-                    maxWidth="100%"
-                    className='mr-4'>
-                    #{i.number} {i.title}
-                  </Truncate>
-                </Dialog.Header>
-                <Box p={3}>
-                  <ItemVote number={i.number} />
-                </Box>
-              </Dialog>
-              <Box className={lastItem ? '' : 'border-bottom'}>
-                <Flex alignItems="flex-start" className="m-2">
-                  <Flex ref={returnFocusRef}
-                    width={80}
-                    flexShrink={0}
-                    flexDirection="column"
-                    justifyContent="center"
-                    alignItems="center"
-                    className="border"
-                    onClick={() => setShowDialog(true)}
-                  >
-                    <ChevronUpIcon
-                      size={24}
-                      aria-label={'Vote on item #' + i.number}
-                      color={PRIMARY_COLOR}
-                    />
-                    <span>{i.totalVoteValue}</span>
-                  </Flex>
-                  <Flex flexGrow={1} className="mx-4" flexDirection="column">
-                    <Flex justifyContent="space-between">
-                      <Link className="f4 text-bold" to={i.url}>
-                        <Truncate
-                          title={i.title}
-                          inline
-                          expandable={false}
-                          maxWidth="100%"
-                        >
-                          {i.title}
-                        </Truncate>
-                      </Link>
-                    </Flex>
-                    <Truncate title={i.description} inline maxWidth="100%">
-                      {i.description}
-                    </Truncate>
-                    <p className="pt-1 mb-0 text-small color-text-tertiary">
-                      #{i.number} opened {moment(i.created).fromNow()} by{' '}
-                      {i.author}
-                    </p>
-                    {i.totalVoteCount > 0 && (
-                      <div className='mt-3'>
-                        <AddressAvatars addresses={addresses} totalVoteCount={i.totalVoteCount} />
-                      </div>
-                    )}
-                  </Flex>
-                </Flex>
-              </Box>
-            </React.Fragment>
-          )
+          return <ItemCard index={index} length={items.length} item={i} />
         })}
       </div>
     </div>
