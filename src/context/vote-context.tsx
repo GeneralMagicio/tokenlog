@@ -97,15 +97,17 @@ export function VoteContextProvider(props: Props) {
   }
 
   async function getVotingPower(): Promise<number> {
-    const networkChainId = web3Context.network.chainId.toString()
+    const space = ''
+    const strategies = backlog.settings.strategy
+    const network = backlog.settings.chainId.toString();
+    const voter = [web3Context.address]
     try {
       const scores = await snapshot.utils.getScores(
-        '',
-        backlog.settings.strategy,
-        networkChainId,
-        snapshot.utils.getProvider(networkChainId),
-        [web3Context.address]
-      )
+        space,
+        strategies,
+        network,
+        voter,
+      )  
       return scores[0][web3Context.address]
     } catch (e) {
       console.log(e)

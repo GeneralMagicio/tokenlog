@@ -16,7 +16,7 @@ export const SECONDARY_COLOR = '#2f363d'
 export const SUPPORTED_CHAINS = {
   1: {
     chainId: '0x1',
-    rpcUrls: ['https://rpc.flashbots.net'],
+    rpcUrls: ['https://mainnet.infura.io/v3/'],
     chainName: 'Ethereum Mainnet',
     nativeCurrency: {
       name: 'ETH',
