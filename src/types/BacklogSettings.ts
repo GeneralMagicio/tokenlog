@@ -5,4 +5,5 @@ export interface BacklogSettings {
   strategy: Array<Strategy>
   chainId: number
   labels: Array<string>
+  blockNumber: number
 }

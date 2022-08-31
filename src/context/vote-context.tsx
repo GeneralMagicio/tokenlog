@@ -99,6 +99,7 @@ export function VoteContextProvider(props: Props) {
   async function getVotingPower(): Promise<number> {
     const space = ''
     const strategies = backlog.settings.strategy
+    const blockNumber = backlog.settings.blockNumber || ''
     const network = backlog.settings.chainId.toString();
     const voter = [web3Context.address]
     try {
@@ -107,6 +108,7 @@ export function VoteContextProvider(props: Props) {
         strategies,
         network,
         voter,
+        blockNumber
       )  
       return scores[0][web3Context.address]
     } catch (e) {
