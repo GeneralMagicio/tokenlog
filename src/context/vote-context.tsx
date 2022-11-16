@@ -113,7 +113,7 @@ export function VoteContextProvider(props: Props) {
       let totalScore = 0
       scores.map(
         (score) => {
-          totalScore += score[web3Context.address]
+          totalScore += (score[web3Context.address] || 0)
         }
       )
       return totalScore
