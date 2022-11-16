@@ -109,8 +109,14 @@ export function VoteContextProvider(props: Props) {
         network,
         voter,
         blockNumber
-      )  
-      return scores[0][web3Context.address]
+      )
+      let totalScore = 0
+      scores.map(
+        (score) => {
+          totalScore += score[web3Context.address]
+        }
+      )
+      return totalScore
     } catch (e) {
       console.log(e)
     }
